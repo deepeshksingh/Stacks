@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <iostream>
 #include <cstring>
+#include<stack>
 
 using namespace std;
 
@@ -152,24 +153,43 @@ createSpan(int price[],int n,int span[])
 
 void towerOfHanoi(int n,char sou,char des,char aux)
 {
-	/*
-	if(n==1)
-	{
-		cout<<"Move from tower ::"<<sou<<":: to tower ::"<<des<<endl;	
-	}	
-	else
-	{
-		tower(n-1,sou,des,aux);
-		tower(1,sou,aux,des);
-		tower(n-1,aux,sou,des);
-	}
-	*/
 	if(n==0){
 		return;
 	}
 	towerOfHanoi(n-1,sou,aux,des);
 	cout<<"Move from disk::"<<n<<":: from tower ::"<<sou<<":: to tower ::"<<des<<endl;
 	towerOfHanoi(n-1,aux,des,sou);
+}
+
+void maxHistogramArea(int hist[], int n)
+{
+	stack<int> s;
+	int max_area=0;
+	int tp;
+	int area_with_top;
+	int i=0;
+	while(i<n)
+	{
+		if (s.empty() || hist[s.top()] <= hist[i])
+			s.push(i++);
+		else
+		{
+			tp=s.top();
+			s.pop();
+			area_with_top=hist[tp]*(s.empty() ? i : (i - s.top() - 1));
+			if (max_area < area_with_top)
+                max_area = area_with_top;
+		}
+	}
+	while(s.empty()==false)
+	{
+		tp=s.top();
+		s.pop();
+		area_with_top=hist[tp]*(s.empty() ? i : (i - s.top() - 1));
+		if (max_area < area_with_top)
+			max_area = area_with_top;
+	}
+	cout<<"MAX AREA IS ::"<<max_area<<endl;
 }
 
 int main()
@@ -190,8 +210,6 @@ int main()
 	findNextGrt(prob,n);
 	cout<<"----------------------REVERSE STACK---------"<<endl;
 	reverseStack(deep);
-	
-
 	sortStack(deep);
 	cout<<"Sorted Stack::"<<endl;
 	
@@ -207,5 +225,8 @@ int main()
 		cout<<"SPAN::::"<<span[i]<<endl;
 	}
 	towerOfHanoi(4,'S','D','A');
+	int hist[] = {6, 2, 5, 4, 5, 1, 6};
+    	int n2 = sizeof(hist)/sizeof(hist[0]);
+	maxHistogramArea(hist,n2);
 	return 0;
 }
