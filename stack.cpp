@@ -150,6 +150,28 @@ createSpan(int price[],int n,int span[])
 		
 }
 
+void towerOfHanoi(int n,char sou,char des,char aux)
+{
+	/*
+	if(n==1)
+	{
+		cout<<"Move from tower ::"<<sou<<":: to tower ::"<<des<<endl;	
+	}	
+	else
+	{
+		tower(n-1,sou,des,aux);
+		tower(1,sou,aux,des);
+		tower(n-1,aux,sou,des);
+	}
+	*/
+	if(n==0){
+		return;
+	}
+	towerOfHanoi(n-1,sou,aux,des);
+	cout<<"Move from disk::"<<n<<":: from tower ::"<<sou<<":: to tower ::"<<des<<endl;
+	towerOfHanoi(n-1,aux,des,sou);
+}
+
 int main()
 {
 	struct Stack* deep = createStack(100);
@@ -184,5 +206,6 @@ int main()
 	{
 		cout<<"SPAN::::"<<span[i]<<endl;
 	}
+	towerOfHanoi(4,'S','D','A');
 	return 0;
 }
